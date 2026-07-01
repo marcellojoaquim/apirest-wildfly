@@ -1,0 +1,42 @@
+# --- Maven ---
+target/
+*.jar
+*.war
+*.ear
+*.nar
+dependency-reduced-pom.xml
+*.releaseBackup
+*.tmp
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.settings/
+.project
+.classpath
+.metadata/
+bin/
+
+# NetBeans
+nb-configuration.xml
+nbproject/private/
+
+# --- WildFly / JBoss ---
+standalone/log/
+standalone/tmp/
+standalone/data/
+standalone/deployments/
+standalone/configuration/standalone_xml_history/
+
+# --- Sistema Operacional ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# --- Outros ---
+*.log
+*.bak
