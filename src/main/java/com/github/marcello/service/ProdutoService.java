@@ -2,6 +2,7 @@ package com.github.marcello.service;
 
 import com.github.marcello.dao.ProdutoDAO;
 import com.github.marcello.domain.Produto;
+import com.github.marcello.exception.DAOException;
 
 
 import javax.enterprise.context.ApplicationScoped;
@@ -17,7 +18,7 @@ public class ProdutoService  implements IProdutoService{
     @Inject
     protected ProdutoDAO produtoDAO;
 
-    public Produto cadastrar(Produto produto) {
+    public Produto cadastrar(Produto produto) throws DAOException {
         Produto newProduto = produtoDAO.cadastrar(produto);
         return newProduto;
     }
@@ -36,7 +37,7 @@ public class ProdutoService  implements IProdutoService{
     }
 
     @Override
-    public Produto buscarPorCodigo(String codigo) {
+    public Produto buscarPorCodigo(String codigo) throws DAOException {
         return this.produtoDAO.consultarPorCodigo(codigo);
     }
 }

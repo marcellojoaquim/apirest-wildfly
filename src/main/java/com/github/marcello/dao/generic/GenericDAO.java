@@ -1,6 +1,7 @@
 package com.github.marcello.dao.generic;
 
 import com.github.marcello.domain.Persistente;
+import com.github.marcello.exception.DAOException;
 
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
@@ -21,9 +22,9 @@ public class GenericDAO<T extends Persistente, E extends Serializable> {
         this.persistenteClass = persistenteClass;
     }
 
-    public T cadastrar(T produto) {
-        entityManager.persist(produto);
-        return produto;
+    public T cadastrar(T entity) throws DAOException {
+        entityManager.persist(entity);
+        return entity;
     }
 
     public Collection<T> buscarTodos() {
@@ -33,17 +34,23 @@ public class GenericDAO<T extends Persistente, E extends Serializable> {
         return list;
     }
 
-    public T consultar(E valor) {
+    public T consultar(E valor) throws DAOException {
         T entity = entityManager.find(this.persistenteClass, valor);
         return entity;
     }
 
-    public T consultarPorCodigo(String codigo) {
-        String jpql = "SELECT obj FROM " +this.persistenteClass.getSimpleName()+ " obj WHERE obj.codigo =:codigo";
+    public T consultarPorCodigo(String codigo) throws DAOException {
+        //String jpql = "SELECT obj FROM " +this.persistenteClass.getSimpleName()+ " obj WHERE obj.codigo =:codigo";
+        String jpql = getByCodigoProduto(codigo);
         return entityManager
                 .createQuery(jpql, this.persistenteClass)
                 .setParameter("codigo", codigo)
                 .getSingleResult();
+    }
+
+    public T atualizar(T entity) throws DAOException {
+        entity = entityManager.merge(entity);
+        return entity;
     }
 
     private String getSelectSql() {
@@ -54,12 +61,11 @@ public class GenericDAO<T extends Persistente, E extends Serializable> {
         return sb.toString();
     }
 
-    private String getByCodigoProduto(E codigo) {
+    private String getByCodigoProduto(String codigo) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT obj FROM ");
         sb.append(this.persistenteClass.getSimpleName());
-        sb.append("WHERE obj.codigo_produto = ");
-        sb.append(codigo);
+        sb.append("obj WHERE obj.codigo = :codigo");
         return sb.toString();
     }
 }
