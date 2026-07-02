@@ -18,13 +18,13 @@ import java.util.Collection;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class ProdutoServiceTest {
+public class ProdutoServiceImplTest {
 
     @Mock
     private ProdutoDAO produtoDAO;
 
     @InjectMocks
-    private ProdutoService produtoService;
+    private ProdutoServiceImpl produtoServiceImpl;
 
     private Produto produto;
     private static final String CODIGO_PRODUTO = "prod123";
@@ -42,7 +42,7 @@ public class ProdutoServiceTest {
     public void testCadastrar() throws DAOException {
         when(produtoDAO.cadastrar(produto)).thenReturn(produto);
 
-        Produto result = produtoService.cadastrar(produto);
+        Produto result = produtoServiceImpl.cadastrar(produto);
         verify(produtoDAO, times(1)).cadastrar(produto);
         assertNotNull(result);
         assertEquals(result.getNome(), produto.getNome());
@@ -55,7 +55,7 @@ public class ProdutoServiceTest {
         list.add(produto);
 
         when(produtoDAO.buscarTodos()).thenReturn(list);
-        Collection<Produto> result = produtoService.buscarTodos();
+        Collection<Produto> result = produtoServiceImpl.buscarTodos();
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -65,7 +65,7 @@ public class ProdutoServiceTest {
     public void testBuscarPorId() throws DAOException{
         produto.setId(ID_PRODUTO);
         when(produtoDAO.consultar(ID_PRODUTO)).thenReturn(produto);
-        Produto result = produtoService.buscarPorId(ID_PRODUTO);
+        Produto result = produtoServiceImpl.buscarPorId(ID_PRODUTO);
 
         verify(produtoDAO, times(1)).consultar(1L);
         assertEquals(result.getId(), produto.getId());
@@ -77,7 +77,7 @@ public class ProdutoServiceTest {
         produto.setId(ID_PRODUTO);
         when(produtoDAO.consultarPorCodigo(CODIGO_PRODUTO)).thenReturn(produto);
 
-        Produto result = produtoService.buscarPorCodigo(CODIGO_PRODUTO);
+        Produto result = produtoServiceImpl.buscarPorCodigo(CODIGO_PRODUTO);
 
         verify(produtoDAO, times(1)).consultarPorCodigo(CODIGO_PRODUTO);
         assertEquals(result.getId(), produto.getId());
