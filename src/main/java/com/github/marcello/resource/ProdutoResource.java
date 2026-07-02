@@ -42,4 +42,11 @@ public class ProdutoResource {
         produtoServiceImpl.cadastrar(produto);
         return Response.status(Response.Status.CREATED).entity(produto).build();
     }
+
+    @PUT
+    @Path("/update/{codigo}")
+    public Response atualizar(@PathParam("codigo") String codigo, @Valid Produto produto) throws DAOException {
+        Produto prodAtualizado = produtoServiceImpl.atualizar(codigo, produto);
+        return Response.ok().entity(prodAtualizado).build();
+    }
 }

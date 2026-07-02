@@ -7,9 +7,11 @@ import com.github.marcello.exception.DAOException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 import java.util.Collection;
+import java.util.Objects;
 
 @Transactional
 @ApplicationScoped
@@ -25,6 +27,20 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     public Collection<Produto> buscarTodos() {
         return produtoDAO.buscarTodos();
+    }
+
+    public Produto atualizar(String codigo, Produto novoProduto) throws DAOException {
+        if(!Objects.equals(novoProduto.getCodigo(), codigo)){
+            throw new IllegalArgumentException("Codigo do produto deve ser igual ao parâmetro código");
+        }
+        Produto produtoLocal = produtoDAO.consultarPorCodigo(codigo);
+        if(produtoLocal == null){
+            throw new EntityNotFoundException("Produto não encontrado para o codigo: "+codigo);
+        }
+        produtoLocal.setNome(novoProduto.getNome());
+        produtoLocal.setDescricao(novoProduto.getDescricao());
+
+        return produtoDAO.atualizar(produtoLocal);
     }
 
     @Override
