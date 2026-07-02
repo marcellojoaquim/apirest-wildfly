@@ -40,7 +40,6 @@ public class GenericDAO<T extends Persistente, E extends Serializable> {
     }
 
     public T consultarPorCodigo(String codigo) throws DAOException {
-        //String jpql = "SELECT obj FROM " +this.persistenteClass.getSimpleName()+ " obj WHERE obj.codigo =:codigo";
         String jpql = getByCodigoProduto(codigo);
         return entityManager
                 .createQuery(jpql, this.persistenteClass)

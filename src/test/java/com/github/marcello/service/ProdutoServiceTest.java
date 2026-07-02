@@ -13,6 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 public class ProdutoServiceTest {
 
@@ -44,8 +48,17 @@ public class ProdutoServiceTest {
         assertEquals(result.getNome(), produto.getNome());
     }
 
+    @Test
     public void testBuscarTodos() {
+        produto.setId(ID_PRODUTO);
+        List<Produto> list = new ArrayList<>();
+        list.add(produto);
 
+        when(produtoDAO.buscarTodos()).thenReturn(list);
+        Collection<Produto> result = produtoService.buscarTodos();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 
     @Test

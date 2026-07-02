@@ -1,6 +1,7 @@
 package com.github.marcello.resource;
 
 import com.github.marcello.domain.Produto;
+import com.github.marcello.exception.DAOException;
 import com.github.marcello.service.ProdutoService;
 
 import javax.inject.Inject;
@@ -31,13 +32,13 @@ public class ProdutoResource {
 
     @GET
     @Path("/codigo/{codigo}")
-    public Response buscarPorCodigo(@PathParam("codigo") String codigo){
+    public Response buscarPorCodigo(@PathParam("codigo") String codigo) throws DAOException {
         Produto produto = produtoService.buscarPorCodigo(codigo);
         return Response.ok().entity(produto).build();
     }
 
     @POST
-    public Response cadastrar(@Valid Produto produto){
+    public Response cadastrar(@Valid Produto produto) throws DAOException {
         produtoService.cadastrar(produto);
         return Response.status(Response.Status.CREATED).entity(produto).build();
     }
