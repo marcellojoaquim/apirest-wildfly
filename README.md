@@ -1,5 +1,5 @@
-# Gerenciamento de Clientes
-<p>CRUD API REST de clientes, desenvolvido em java e configurado para o servidor wildfly com 
+# Gerenciamento de Produtos
+<p>CRUD API REST de produtos, desenvolvido em java e configurado para o servidor wildfly com 
 persistencia no Banco de Dados PostgreSQL</p>
 
 ## Tecnologias: 
